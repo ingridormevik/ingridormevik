@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="no" data-theme="dark">
 <head>
 <meta charset="UTF-8">
@@ -10,491 +9,490 @@
 * { margin:0; padding:0; box-sizing:border-box; }
 
 :root {
-–black: #080808;
-–white: #f8f3ec;
-–red: #b52a1c;
-–gold: #c9963a;
-–gold-light: #e8c06a;
-–cream: #ede8df;
+  --black: #080808;
+  --white: #f8f3ec;
+  --red: #b52a1c;
+  --gold: #c9963a;
+  --gold-light: #e8c06a;
+  --cream: #ede8df;
 }
 
-[data-theme=“dark”] {
-–bg: #080808;
-–bg2: #0e0810;
-–bg3: #120a0a;
-–fg: #f8f3ec;
-–fg2: #c8c0b4;
-–fg3: #555;
-–border: #1a1a1a;
-–border2: #2a2a2a;
-–card-bg: #111;
-–freddie-bg: #110808;
-–freddie-fg: #f8f3ec;
-–facade-op: 0.04;
-–scan-col: rgba(192,57,43,0.12);
+[data-theme="dark"] {
+  --bg: #080808;
+  --bg2: #0e0810;
+  --bg3: #120a0a;
+  --fg: #f8f3ec;
+  --fg2: #c8c0b4;
+  --fg3: #555;
+  --border: #1a1a1a;
+  --border2: #2a2a2a;
+  --card-bg: #111;
+  --freddie-bg: #110808;
+  --freddie-fg: #f8f3ec;
+  --facade-op: 0.04;
+  --scan-col: rgba(192,57,43,0.12);
 }
 
 body {
-background: var(–bg);
-color: var(–fg);
-font-family: ‘Cormorant Garamond’, serif;
-overflow-x: hidden;
-transition: background 0.4s, color 0.4s;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: 'Cormorant Garamond', serif;
+  overflow-x: hidden;
+  transition: background 0.4s, color 0.4s;
 }
 
 .stage-lights {
-position: fixed;
-top: 0; left: 0;
-width: 100%; height: 100%;
-pointer-events: none;
-z-index: 0;
-overflow: hidden;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
 }
 
 .light {
-position: absolute;
-top: -100px;
-width: 1px;
-height: 100vh;
-transform-origin: top center;
-animation: lightSweep var(–dur) var(–delay) ease-in-out infinite alternate;
+  position: absolute;
+  top: -100px;
+  width: 1px;
+  height: 100vh;
+  transform-origin: top center;
+  animation: lightSweep var(--dur) var(--delay) ease-in-out infinite alternate;
 }
 
 .light::after {
-content: ‘’;
-position: absolute;
-top: 0; left: 50%;
-transform: translateX(-50%);
-width: 0; height: 0;
-border-left: var(–spread) solid transparent;
-border-right: var(–spread) solid transparent;
-border-top: 100vh solid var(–col);
-opacity: 0.08;
+  content: '';
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 0; height: 0;
+  border-left: var(--spread) solid transparent;
+  border-right: var(--spread) solid transparent;
+  border-top: 100vh solid var(--col);
+  opacity: 0.08;
 }
 
-.l1 { left: 15%; –dur: 8s; –delay: 0s; –spread: 60px; –col: rgba(201,150,58,1); transform: rotate(-8deg); }
-.l2 { left: 35%; –dur: 11s; –delay: 2s; –spread: 80px; –col: rgba(255,255,255,1); transform: rotate(-3deg); }
-.l3 { left: 50%; –dur: 9s; –delay: 1s; –spread: 100px; –col: rgba(255,255,255,1); transform: rotate(0deg); }
-.l4 { left: 65%; –dur: 12s; –delay: 3s; –spread: 80px; –col: rgba(255,255,255,1); transform: rotate(3deg); }
-.l5 { left: 82%; –dur: 7s; –delay: 0.5s; –spread: 60px; –col: rgba(201,150,58,1); transform: rotate(8deg); }
+.l1 { left: 15%; --dur: 8s; --delay: 0s; --spread: 60px; --col: rgba(201,150,58,1); transform: rotate(-8deg); }
+.l2 { left: 35%; --dur: 11s; --delay: 2s; --spread: 80px; --col: rgba(255,255,255,1); transform: rotate(-3deg); }
+.l3 { left: 50%; --dur: 9s; --delay: 1s; --spread: 100px; --col: rgba(255,255,255,1); transform: rotate(0deg); }
+.l4 { left: 65%; --dur: 12s; --delay: 3s; --spread: 80px; --col: rgba(255,255,255,1); transform: rotate(3deg); }
+.l5 { left: 82%; --dur: 7s; --delay: 0.5s; --spread: 60px; --col: rgba(201,150,58,1); transform: rotate(8deg); }
 
 @keyframes lightSweep {
-from { opacity: 0.3; }
-to { opacity: 1; }
+  from { opacity: 0.3; }
+  to { opacity: 1; }
 }
 
 .facade {
-position: fixed;
-top: 0; left: 0;
-width: 100%; height: 100%;
-pointer-events: none;
-z-index: 0;
-display: flex;
-gap: 14px;
-padding: 0 30px;
-opacity: var(–facade-op);
-transition: opacity 0.4s;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  display: flex;
+  gap: 14px;
+  padding: 0 30px;
+  opacity: var(--facade-op);
+  transition: opacity 0.4s;
 }
-.bar { flex: 1; background: var(–fg); }
+.bar { flex: 1; background: var(--fg); }
 
 .scanline {
-position: fixed;
-top: 0; left: 0;
-width: 100%;
-height: 3px;
-background: var(–scan-col);
-animation: scan 6s linear infinite;
-pointer-events: none;
-z-index: 100;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--scan-col);
+  animation: scan 6s linear infinite;
+  pointer-events: none;
+  z-index: 100;
 }
 
 @keyframes scan {
-from { transform: translateY(-3px); }
-to { transform: translateY(100vh); }
+  from { transform: translateY(-3px); }
+  to { transform: translateY(100vh); }
 }
 
 @keyframes glitch {
-0%,89%,100% { text-shadow: none; transform: none; }
-90% { text-shadow: -3px 0 var(–red), 3px 0 var(–gold); transform: skewX(-1deg); }
-91% { text-shadow: 3px 0 var(–red), -3px 0 var(–gold); transform: skewX(1deg); }
-92% { text-shadow: none; transform: none; }
-97% { text-shadow: -2px 0 var(–gold); transform: skewX(-0.5deg); }
-98% { text-shadow: none; transform: none; }
+  0%,89%,100% { text-shadow: none; transform: none; }
+  90% { text-shadow: -3px 0 var(--red), 3px 0 var(--gold); transform: skewX(-1deg); }
+  91% { text-shadow: 3px 0 var(--red), -3px 0 var(--gold); transform: skewX(1deg); }
+  92% { text-shadow: none; transform: none; }
+  97% { text-shadow: -2px 0 var(--gold); transform: skewX(-0.5deg); }
+  98% { text-shadow: none; transform: none; }
 }
 
 @keyframes shimmer {
-0% { background-position: -200% center; }
-100% { background-position: 200% center; }
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
 }
 
 @keyframes fadeUp {
-from { opacity:0; transform: translateY(40px); }
-to { opacity:1; transform: translateY(0); }
+  from { opacity:0; transform: translateY(40px); }
+  to { opacity:1; transform: translateY(0); }
 }
 
 .hero {
-position: relative;
-z-index: 10;
-min-height: 100vh;
-display: flex;
-flex-direction: column;
-justify-content: flex-end;
-padding: 0 60px 80px;
-border-bottom: 1px solid var(–border);
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 60px 80px;
+  border-bottom: 1px solid var(--border);
 }
 
 .hero-label {
-font-family: ‘IBM Plex Mono’, monospace;
-font-size: 10px;
-letter-spacing: 5px;
-text-transform: uppercase;
-color: var(–gold);
-margin-bottom: 40px;
-opacity: 0;
-animation: fadeUp 1s 0.5s both;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 40px;
+  opacity: 0;
+  animation: fadeUp 1s 0.5s both;
 }
 
-.hero-label::before { content: ’▶ ’; color: var(–red); }
+.hero-label::before { content: '▶ '; color: var(--red); }
 
 h1 {
-font-family: ‘Bebas Neue’, sans-serif;
-font-size: clamp(72px, 14vw, 180px);
-line-height: 0.88;
-letter-spacing: 3px;
-color: var(–fg);
-animation: glitch 10s infinite, fadeUp 1s 0.7s both;
-opacity: 0;
-transition: color 0.4s;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(72px, 14vw, 180px);
+  line-height: 0.88;
+  letter-spacing: 3px;
+  color: var(--fg);
+  animation: glitch 10s infinite, fadeUp 1s 0.7s both;
+  opacity: 0;
+  transition: color 0.4s;
 }
 
-h1 .red { color: var(–red); }
+h1 .red { color: var(--red); }
 
 h1 .gold {
-background: linear-gradient(90deg, var(–gold), var(–gold-light), var(–gold));
-background-size: 200% auto;
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-background-clip: text;
-animation: shimmer 3s linear infinite;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s linear infinite;
 }
 
 .hero-sub {
-color: #bbb;
-font-size: clamp(17px, 2vw, 22px);
-font-style: italic;
-margin-top: 24px;
-opacity: 0;
-animation: fadeUp 1s 1s both;
-max-width: 600px;
-line-height: 1.7;
+  color: #bbb;
+  font-size: clamp(17px, 2vw, 22px);
+  font-style: italic;
+  margin-top: 24px;
+  opacity: 0;
+  animation: fadeUp 1s 1s both;
+  max-width: 600px;
+  line-height: 1.7;
 }
 
 .hero-meta {
-margin-top: 48px;
-display: flex;
-align-items: center;
-gap: 24px;
-opacity: 0;
-animation: fadeUp 1s 1.2s both;
+  margin-top: 48px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  opacity: 0;
+  animation: fadeUp 1s 1.2s both;
 }
 
 .hero-meta .name {
-font-family: ‘IBM Plex Mono’, monospace;
-font-size: 11px;
-letter-spacing: 3px;
-text-transform: uppercase;
-color: var(–fg);
-border-left: 3px solid var(–gold);
-padding-left: 14px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--fg);
+  border-left: 3px solid var(--gold);
+  padding-left: 14px;
 }
 
 .hero-meta .role {
-font-family: ‘IBM Plex Mono’, monospace;
-font-size: 9px;
-letter-spacing: 2px;
-text-transform: uppercase;
-color: #aaa;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #aaa;
 }
 
 .gold-bar {
-height: 6px;
-background: linear-gradient(90deg, var(–red), var(–gold), var(–gold-light), var(–gold), var(–red));
-background-size: 200% auto;
-animation: shimmer 4s linear infinite;
-position: relative;
-z-index: 10;
+  height: 6px;
+  background: linear-gradient(90deg, var(--red), var(--gold), var(--gold-light), var(--gold), var(--red));
+  background-size: 200% auto;
+  animation: shimmer 4s linear infinite;
+  position: relative;
+  z-index: 10;
 }
 
 article {
-position: relative;
-z-index: 10;
-max-width: 780px;
-margin: 0 auto;
-padding: 100px 40px 140px;
+  position: relative;
+  z-index: 10;
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 100px 40px 140px;
 }
 
 .section-mark {
-font-family: ‘IBM Plex Mono’, monospace;
-font-size: 9px;
-letter-spacing: 5px;
-text-transform: uppercase;
-color: #aaa;
-display: flex;
-align-items: center;
-gap: 20px;
-margin: 64px 0 40px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: #aaa;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin: 64px 0 40px;
 }
 
 .section-mark::after {
-content: ‘’;
-flex: 1;
-height: 1px;
-background: var(–border);
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
 }
 
 p {
-font-size: 20px;
-line-height: 1.9;
-color: var(–fg2);
-margin-bottom: 28px;
-font-weight: 300;
+  font-size: 20px;
+  line-height: 1.9;
+  color: var(--fg2);
+  margin-bottom: 28px;
+  font-weight: 300;
 }
 
-p em { color: var(–gold-light); font-style: italic; }
-p strong { color: var(–fg); font-weight: 600; }
-p .sting { color: var(–red); font-style: italic; }
+p em { color: var(--gold-light); font-style: italic; }
+p strong { color: var(--fg); font-weight: 600; }
+p .sting { color: var(--red); font-style: italic; }
 
 .mono-tag {
-font-family: ‘IBM Plex Mono’, monospace;
-font-size: 12px;
-background: var(–card-bg);
-border: 1px solid var(–border2);
-padding: 3px 10px;
-color: var(–gold);
-letter-spacing: 1px;
-display: inline;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  background: var(--card-bg);
+  border: 1px solid var(--border2);
+  padding: 3px 10px;
+  color: var(--gold);
+  letter-spacing: 1px;
+  display: inline;
 }
 
 .rad26 {
-display: inline-block;
-background: var(–red);
-color: white;
-font-family: ‘IBM Plex Mono’, monospace;
-font-size: 9px;
-letter-spacing: 3px;
-padding: 3px 8px;
-text-transform: uppercase;
-position: relative;
-top: -2px;
+  display: inline-block;
+  background: var(--red);
+  color: white;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 3px;
+  padding: 3px 8px;
+  text-transform: uppercase;
+  position: relative;
+  top: -2px;
 }
 
 .pull-quote {
-margin: 72px -40px;
-padding: 64px 56px;
-background: var(–bg2);
-border-left: 5px solid var(–gold);
-position: relative;
-overflow: hidden;
+  margin: 72px -40px;
+  padding: 64px 56px;
+  background: var(--bg2);
+  border-left: 5px solid var(--gold);
+  position: relative;
+  overflow: hidden;
 }
 
 .pull-quote::before {
-content: ‘”’;
-position: absolute;
-top: -20px; left: 30px;
-font-family: ‘Cormorant Garamond’, serif;
-font-size: 200px;
-color: var(–gold);
-opacity: 0.06;
-line-height: 1;
+  content: '"';
+  position: absolute;
+  top: -20px; left: 30px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 200px;
+  color: var(--gold);
+  opacity: 0.06;
+  line-height: 1;
 }
 
 .pull-quote::after {
-content: ‘’;
-position: absolute;
-top: 0; right: 0;
-width: 4px; height: 100%;
-background: linear-gradient(180deg, var(–gold), var(–red));
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 4px; height: 100%;
+  background: linear-gradient(180deg, var(--gold), var(--red));
 }
 
 .pull-quote p {
-font-size: clamp(22px, 3vw, 34px);
-font-style: italic;
-color: var(–fg);
-line-height: 1.55;
-font-weight: 300;
-margin: 0;
+  font-size: clamp(22px, 3vw, 34px);
+  font-style: italic;
+  color: var(--fg);
+  line-height: 1.55;
+  font-weight: 300;
+  margin: 0;
 }
 
 .pull-quote cite {
-display: block;
-margin-top: 24px;
-font-family: ‘IBM Plex Mono’, monospace;
-font-size: 9px;
-letter-spacing: 4px;
-text-transform: uppercase;
-color: var(–gold);
-font-style: normal;
+  display: block;
+  margin-top: 24px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-style: normal;
 }
 
 .freddie-block {
-margin: 80px -40px;
-padding: 80px 56px;
-background: var(–freddie-bg);
-color: var(–freddie-fg);
-position: relative;
-overflow: hidden;
+  margin: 80px -40px;
+  padding: 80px 56px;
+  background: var(--freddie-bg);
+  color: var(--freddie-fg);
+  position: relative;
+  overflow: hidden;
 }
 
 .freddie-block::before {
-content: ‘FREDDIE’;
-position: absolute;
-right: -20px; top: 50%;
-transform: translateY(-50%);
-font-family: ‘Bebas Neue’, sans-serif;
-font-size: 180px;
-color: var(–freddie-fg);
-opacity: 0.04;
-line-height: 1;
-white-space: nowrap;
+  content: 'FREDDIE';
+  position: absolute;
+  right: -20px; top: 50%;
+  transform: translateY(-50%);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 180px;
+  color: var(--freddie-fg);
+  opacity: 0.04;
+  line-height: 1;
+  white-space: nowrap;
 }
 
 .freddie-block .dates {
-font-family: ‘IBM Plex Mono’, monospace;
-font-size: 10px;
-letter-spacing: 4px;
-color: var(–red);
-margin-bottom: 24px;
-text-transform: uppercase;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 4px;
+  color: var(--red);
+  margin-bottom: 24px;
+  text-transform: uppercase;
 }
 
 .freddie-block p {
-color: var(–freddie-fg);
-font-size: 18px;
-opacity: 0.85;
+  color: var(--freddie-fg);
+  font-size: 18px;
+  opacity: 0.85;
 }
 
-.freddie-block p em { color: var(–red); }
-.freddie-block p strong { color: var(–freddie-fg); opacity: 1; }
+.freddie-block p em { color: var(--red); }
+.freddie-block p strong { color: var(--freddie-fg); opacity: 1; }
 
 .freddie-block blockquote {
-margin: 28px 0;
-padding: 24px 32px;
-border-left: 4px solid var(–red);
-background: rgba(0,0,0,0.06);
-font-family: ‘Cormorant Garamond’, serif;
-font-size: 17px;
-font-style: italic;
-line-height: 1.8;
-color: var(–freddie-fg);
-opacity: 0.85;
+  margin: 28px 0;
+  padding: 24px 32px;
+  border-left: 4px solid var(--red);
+  background: rgba(0,0,0,0.06);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
+  font-style: italic;
+  line-height: 1.8;
+  color: var(--freddie-fg);
+  opacity: 0.85;
 }
 
 .freddie-block .quote-attr {
-font-family: ‘IBM Plex Mono’, monospace;
-font-size: 9px;
-letter-spacing: 3px;
-text-transform: uppercase;
-color: var(–red);
-margin-top: -16px;
-margin-bottom: 28px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-top: -16px;
+  margin-bottom: 28px;
 }
 
 .source-links {
-margin-top: 40px;
-padding-top: 28px;
-border-top: 1px solid rgba(255,255,255,0.08);
+  margin-top: 40px;
+  padding-top: 28px;
+  border-top: 1px solid rgba(255,255,255,0.08);
 }
 
 .source-links .sources-label {
-font-family: ‘IBM Plex Mono’, monospace;
-font-size: 9px;
-letter-spacing: 4px;
-text-transform: uppercase;
-color: var(–red);
-margin-bottom: 16px;
-font-style: normal;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 16px;
+  font-style: normal;
 }
 
 .source-links a {
-display: block;
-font-family: ‘IBM Plex Mono’, monospace;
-font-size: 11px;
-letter-spacing: 1px;
-color: var(–freddie-fg);
-opacity: 0.6;
-text-decoration: none;
-margin-bottom: 10px;
-transition: opacity 0.2s;
-padding-left: 12px;
-border-left: 2px solid transparent;
+  display: block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: var(--freddie-fg);
+  opacity: 0.6;
+  text-decoration: none;
+  margin-bottom: 10px;
+  transition: opacity 0.2s;
+  padding-left: 12px;
+  border-left: 2px solid transparent;
 }
 
 .source-links a:hover {
-opacity: 1;
-border-left-color: var(–red);
+  opacity: 1;
+  border-left-color: var(--red);
 }
 
 .ending {
-margin-top: 80px;
-text-align: center;
+  margin-top: 80px;
+  text-align: center;
 }
 
 .ending .big {
-font-family: ‘Bebas Neue’, sans-serif;
-font-size: clamp(48px, 8vw, 96px);
-letter-spacing: 4px;
-line-height: 1;
-color: var(–fg);
-display: block;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(48px, 8vw, 96px);
+  letter-spacing: 4px;
+  line-height: 1;
+  color: var(--fg);
+  display: block;
 }
 
-.ending .big em { color: var(–red); font-style: normal; }
+.ending .big em { color: var(--red); font-style: normal; }
 
 .ending .small {
-font-family: ‘Cormorant Garamond’, serif;
-font-style: italic;
-font-size: 22px;
-color: #aaa;
-display: block;
-margin-top: 16px;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 22px;
+  color: #aaa;
+  display: block;
+  margin-top: 16px;
 }
 
 footer {
-position: relative;
-z-index: 10;
-border-top: 1px solid var(–border);
-padding: 40px 60px;
-display: flex;
-justify-content: space-between;
-align-items: center;
+  position: relative;
+  z-index: 10;
+  border-top: 1px solid var(--border);
+  padding: 40px 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .footer-left {
-font-family: ‘IBM Plex Mono’, monospace;
-font-size: 9px;
-letter-spacing: 4px;
-text-transform: uppercase;
-color: #aaa;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #aaa;
 }
 
 .footer-right {
-font-family: ‘Bebas Neue’, sans-serif;
-font-size: 20px;
-letter-spacing: 4px;
-background: linear-gradient(90deg, var(–red), var(–gold));
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-background-clip: text;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px;
+  letter-spacing: 4px;
+  background: linear-gradient(90deg, var(--red), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .rainbow-line {
-height: 3px;
-background: linear-gradient(90deg, #e40303, #ff8c00, #ffed00, #008026, #004dff, #750787);
-position: relative;
-z-index: 10;
+  height: 3px;
+  background: linear-gradient(90deg, #e40303, #ff8c00, #ffed00, #008026, #004dff, #750787);
+  position: relative;
+  z-index: 10;
 }
 </style>
-
 </head>
 <body>
 
@@ -581,26 +579,23 @@ z-index: 10;
   <div class="freddie-block">
     <div class="dates">Farrokh Bulsara · 05.09.1946 og 24.11.1991</div>
 
-```
-<p>Han kom ut offentlig <em>dagen før han døde</em>. Ikke fordi han endelig var trygg. Men fordi han ikke hadde noe mer å tape.</p>
+    <p>Han kom ut offentlig <em>dagen før han døde</em>. Ikke fordi han endelig var trygg. Men fordi han ikke hadde noe mer å tape.</p>
 
-<p>Den 23. november 1991 ga han ut denne uttalelsen, mens han lå på dødsleiet:</p>
+    <p>Den 23. november 1991 ga han ut denne uttalelsen, mens han lå på dødsleiet:</p>
 
-<blockquote>"Following the enormous conjecture in the press over the last two weeks, I wish to confirm that I have been tested HIV positive and have AIDS. I felt it correct to keep this information private to date to protect the privacy of those around me. However, the time has come now for my friends and fans around the world to know the truth and I hope that everyone will join with me, my doctors and all those worldwide in the fight against this terrible disease."</blockquote>
+    <blockquote>"Following the enormous conjecture in the press over the last two weeks, I wish to confirm that I have been tested HIV positive and have AIDS. I felt it correct to keep this information private to date to protect the privacy of those around me. However, the time has come now for my friends and fans around the world to know the truth and I hope that everyone will join with me, my doctors and all those worldwide in the fight against this terrible disease."</blockquote>
 
-<p class="quote-attr">Freddie Mercury · 23. november 1991 · 24 timer før han døde</p>
+    <p class="quote-attr">Freddie Mercury · 23. november 1991 · 24 timer før han døde</p>
 
-<p>Han døde dagen etter. Han var 45 år gammel. Han levde et helt liv i skyggen av den mannen han egentlig var, og ga verden <strong>alt</strong> likevel. Det er ikke en detalj i historien hans. Det er hele historien.</p>
+    <p>Han døde dagen etter. Han var 45 år gammel. Han levde et helt liv i skyggen av den mannen han egentlig var, og ga verden <strong>alt</strong> likevel. Det er ikke en detalj i historien hans. Det er hele historien.</p>
 
-<div class="source-links">
-  <p class="sources-label">Kilder og videre lesing</p>
-  <a href="https://en.wikipedia.org/wiki/Freddie_Mercury" target="_blank">Wikipedia: Freddie Mercury</a>
-  <a href="https://www.smithsonianmag.com/smart-news/read-freddie-mercurys-heartbreaking-announcement-of-his-diagnosis-with-hivaids-released-on-this-date-in-1991-just-a-day-before-the-queen-fontman-died-180985325/" target="_blank">Smithsonian: Hans siste uttalelse</a>
-  <a href="https://www.euronews.com/culture/2023/11/24/culture-re-view-how-freddie-mercurys-death-changed-aids-perceptions" target="_blank">Euronews: Hvordan hans død endret AIDS-forståelsen</a>
-  <a href="https://www.mercuryphoenixtrust.com/" target="_blank">Mercury Phoenix Trust</a>
-</div>
-```
-
+    <div class="source-links">
+      <p class="sources-label">Kilder og videre lesing</p>
+      <a href="https://en.wikipedia.org/wiki/Freddie_Mercury" target="_blank">Wikipedia: Freddie Mercury</a>
+      <a href="https://www.smithsonianmag.com/smart-news/read-freddie-mercurys-heartbreaking-announcement-of-his-diagnosis-with-hivaids-released-on-this-date-in-1991-just-a-day-before-the-queen-fontman-died-180985325/" target="_blank">Smithsonian: Hans siste uttalelse</a>
+      <a href="https://www.euronews.com/culture/2023/11/24/culture-re-view-how-freddie-mercurys-death-changed-aids-perceptions" target="_blank">Euronews: Hvordan hans død endret AIDS-forståelsen</a>
+      <a href="https://www.mercuryphoenixtrust.com/" target="_blank">Mercury Phoenix Trust</a>
+    </div>
   </div>
 
   <div class="ending">
@@ -613,7 +608,7 @@ z-index: 10;
 <div class="rainbow-line"></div>
 
 <footer>
-  <div class="footer-left">Bergen · ☔️ · For Freddie</div>
+  <div class="footer-left">Bergen · 🌈 · For Freddie</div>
   <div class="footer-right">Ingrid · FRI Vestland</div>
 </footer>
 
