@@ -1,63 +1,563 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About - Ingrid Ormevik</title>
-    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+```
+    :root {
+        --bg:      #0d0d0d;
+        --text:    #f0ede8;
+        --muted:   #b0aa9f;
+        --border:  rgba(240,237,232,0.12);
+        --primary: #f0ede8;
+    }
+
+    [data-theme="light"] {
+        --bg:      #fafaf9;
+        --text:    #1a1a1a;
+        --muted:   #666;
+        --border:  rgba(0,0,0,0.1);
+        --primary: #0a0a0a;
+    }
+
+    body {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        background: var(--bg);
+        color: var(--text);
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+        transition: background 0.4s ease, color 0.4s ease;
+    }
+
+    /* Canvas behind everything */
+    #neural-canvas {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        z-index: 0;
+        pointer-events: none;
+        opacity: 0.22;
+    }
+
+    /* Reading column */
+    header, main, footer {
+        position: relative;
+        z-index: 10;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 36px;
+        padding-right: 36px;
+    }
+
+    /* === HEADER === */
+    header {
+        padding-top: 70px;
+        padding-bottom: 50px;
+        margin-bottom: 20px;
+    }
+
+    header h1 {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 1.9em;
+        font-weight: 300;
+        letter-spacing: -0.01em;
+        color: var(--text);
+        margin-bottom: 28px;
+    }
+
+    header h1 a { color: inherit; text-decoration: none; }
+
+    nav {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.56em;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+    }
+
+    nav a {
+        margin-right: 32px;
+        color: var(--muted);
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+
+    nav a:hover, nav a.active { color: var(--text); }
+
+    /* === PAGE TITLE === */
+    .page-title {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(3rem, 10vw, 5.5rem);
+        font-weight: 300;
+        letter-spacing: -0.03em;
+        color: var(--text);
+        line-height: 1;
+        margin-bottom: 0.3em;
+    }
+
+    .title-rule {
+        width: 50px;
+        height: 1px;
+        background: var(--text);
+        opacity: 0.35;
+        margin-bottom: 3.5rem;
+    }
+
+    /* === BODY TEXT — large, white, readable === */
+    .about-intro {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(1.35rem, 3.5vw, 1.7rem);
+        font-weight: 300;
+        line-height: 1.65;
+        color: var(--text);
+        margin-bottom: 1.6rem;
+        letter-spacing: 0.01em;
+    }
+
+    .about-intro a {
+        color: var(--text);
+        text-decoration: underline;
+        text-underline-offset: 4px;
+        text-decoration-color: rgba(240,237,232,0.3);
+        transition: text-decoration-color 0.2s;
+    }
+
+    .about-intro a:hover { text-decoration-color: var(--text); }
+
+    /* === SECTION LABEL === */
+    .section-label {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.6rem;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 1.2rem;
+        margin-top: 3.5rem;
+    }
+
+    .section-label::before { content: '// '; }
+
+    /* === NODE TAGS === */
+    .tags-row {
+        margin-bottom: 0.4rem;
+    }
+
+    .node-tag {
+        display: inline-block;
+        font-family: 'Space Mono', monospace;
+        font-size: 0.6rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 6px 12px;
+        margin: 4px 4px 4px 0;
+        border: 1px solid currentColor;
+        border-radius: 2px;
+        cursor: default;
+        transition: background 0.2s, opacity 0.2s, transform 0.2s;
+        opacity: 0.7;
+    }
+
+    .node-tag:hover { opacity: 1; transform: translateY(-2px); }
+
+    .node-tag.theory   { color: #b39dfa; }
+    .node-tag.theory:hover   { background: rgba(179,157,250,0.1); }
+    .node-tag.activist { color: #4ade9a; }
+    .node-tag.activist:hover { background: rgba(74,222,154,0.1); }
+    .node-tag.method   { color: #f9a8d4; }
+    .node-tag.method:hover   { background: rgba(249,168,212,0.1); }
+    .node-tag.tech     { color: #7ee8f9; }
+    .node-tag.tech:hover     { background: rgba(126,232,249,0.1); }
+
+    /* === DIVIDER === */
+    .signal-line {
+        width: 100%;
+        height: 1px;
+        background: var(--border);
+        margin: 3rem 0;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .signal-line::after {
+        content: '';
+        position: absolute;
+        top: 0; left: -40%;
+        width: 40%; height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(179,157,250,0.6), transparent);
+        animation: signal 6s linear infinite;
+    }
+
+    @keyframes signal { 0% { left: -40%; } 100% { left: 140%; } }
+
+    /* === AWARD === */
+    .award-callout {
+        border-left: 2px solid #f9a8d4;
+        padding: 1rem 1.4rem;
+        margin: 1.5rem 0;
+        background: rgba(249,168,212,0.05);
+        font-style: italic;
+        font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+        line-height: 1.7;
+        color: var(--text);
+        font-weight: 300;
+    }
+
+    /* === CONTACT === */
+    .contact-text {
+        font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+        font-weight: 300;
+        color: var(--text);
+        line-height: 1.7;
+    }
+
+    .contact-text a {
+        color: var(--text);
+        text-decoration: underline;
+        text-underline-offset: 4px;
+        text-decoration-color: rgba(240,237,232,0.3);
+        transition: text-decoration-color 0.2s;
+    }
+
+    .contact-text a:hover { text-decoration-color: var(--text); }
+
+    /* === FOOTER === */
+    footer {
+        border-top: 1px solid var(--border);
+        padding-top: 36px;
+        padding-bottom: 70px;
+        margin-top: 80px;
+        text-align: center;
+        font-family: 'Space Mono', monospace;
+        font-size: 0.55rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--muted);
+    }
+
+    footer p { margin-bottom: 0.5em; }
+
+    /* === THEME TOGGLE === */
+    .theme-toggle {
+        position: fixed;
+        bottom: 32px; right: 32px;
+        width: 46px; height: 46px;
+        border-radius: 50%;
+        background: rgba(240,237,232,0.08);
+        border: 1px solid var(--border);
+        backdrop-filter: blur(8px);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        color: var(--text);
+        transition: background 0.2s, transform 0.2s;
+    }
+
+    .theme-toggle:hover {
+        background: rgba(240,237,232,0.14);
+        transform: translateY(-2px);
+    }
+
+    .sun-icon  { display: none; }
+    [data-theme="light"] .sun-icon  { display: block; }
+    [data-theme="light"] .moon-icon { display: none; }
+
+    /* === FADE IN === */
+    .fade-in {
+        opacity: 0;
+        transform: translateY(18px);
+        animation: fadeup 0.7s ease forwards;
+    }
+
+    @keyframes fadeup { to { opacity: 1; transform: translateY(0); } }
+
+    main > * { animation-fill-mode: both; }
+    main > *:nth-child(1)  { animation-delay: 0.05s; }
+    main > *:nth-child(2)  { animation-delay: 0.12s; }
+    main > *:nth-child(3)  { animation-delay: 0.19s; }
+    main > *:nth-child(4)  { animation-delay: 0.26s; }
+    main > *:nth-child(5)  { animation-delay: 0.33s; }
+    main > *:nth-child(6)  { animation-delay: 0.40s; }
+    main > *:nth-child(7)  { animation-delay: 0.47s; }
+    main > *:nth-child(8)  { animation-delay: 0.54s; }
+    main > *:nth-child(9)  { animation-delay: 0.61s; }
+    main > *:nth-child(10) { animation-delay: 0.68s; }
+    main > *:nth-child(11) { animation-delay: 0.75s; }
+    main > *:nth-child(12) { animation-delay: 0.82s; }
+    main > *:nth-child(13) { animation-delay: 0.89s; }
+    main > *:nth-child(14) { animation-delay: 0.96s; }
+    main > *:nth-child(15) { animation-delay: 1.03s; }
+    main > *:nth-child(16) { animation-delay: 1.10s; }
+    main > *:nth-child(17) { animation-delay: 1.17s; }
+    main > *:nth-child(18) { animation-delay: 1.24s; }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 600px) {
+        header, main, footer { padding-left: 24px; padding-right: 24px; }
+        header { padding-top: 48px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            transition-duration: 0.01ms !important;
+        }
+    }
+
+    ::selection { background: var(--text); color: var(--bg); }
+</style>
+```
+
 </head>
 <body>
-    <header>
-        <h1><a href="index.html">Ingrid Ormevik</a></h1>
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="blog.html">Writing</a>
-            <a href="about.html" class="active">About</a>
-            <a href="touch game.html">Projects</a>
-        </nav>
-    </header>
-    
-    <main>
-        <h2>About</h2>
-        
-        <section class="bio">
-            <p>I'm a Digital Culture BA student at the University of Bergen, currently interning with the <a href="https://survivingsogice.eu/" target="_blank">SurvivingSOGICE</a> research project at the Centre for Digital Narrative.</p>
-            
-            <p>My work sits at the intersection of digital ethics, queer activism, and critical AI studies. I explore how algorithmic systems shape identity, visibility, and community safety—both through academic research and hands-on digital activism.</p>
-            
-            <p>I serve as Digital Media Strategist for Bergen Pride and board member of FRI Vestland, Norway's organization for gender and sexuality diversity, where I develop content strategies that navigate platform governance and algorithmic suppression.</p>
-        </section>
-        
-        <section class="current-work">
-            <h3>Current Work</h3>
-            <ul>
-                <li>Research intern: SurvivingSOGICE project (January–May 2026)</li>
-                <li>BA thesis research on digital ethics and platform governance (2026-2027)</li>
-                <li>Digital activism combating algorithmic bias in social media</li>
-            </ul>
-        </section>
-        
-        <section class="interests">
-            <h3>Research Interests</h3>
-            <ul>
-                <li>AI ethics and algorithmic bias</li>
-                <li>Platform governance and content moderation</li>
-                <li>Digital activism and queer visibility</li>
-                <li>Surveillance capitalism and privacy</li>
-                <li>Interactive fiction and digital narratives</li>
-            </ul>
-        </section>
-        
-        <section class="contact">
-            <h3>Contact</h3>
-            <p>You can reach me via email ingrid@bergenpride.no or connect on LinkedIn.</p>
-        </section>
-    </main>
-    
-    <footer>
-        <p>&copy; 2026 Ingrid Ormevik</p>
-        <p>Digital Culture BA Student, University of Bergen | Intern at Centre for Digital Narrative</p>
-    </footer>
-    <script src="script.js"></script>
+
+```
+<canvas id="neural-canvas"></canvas>
+
+<header>
+    <h1><a href="index.html">Ingrid Ormevik</a></h1>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="blog.html">Writing</a>
+        <a href="about.html" class="active">About</a>
+        <a href="touch game.html">Projects</a>
+    </nav>
+</header>
+
+<main>
+
+    <h2 class="page-title fade-in">About</h2>
+    <div class="title-rule fade-in"></div>
+
+    <p class="about-intro fade-in">I study Digital Culture at the University of Bergen. Second year. This semester it is DIKULT216 Digital Games and an internship at the Centre for Digital Narrative, where I am part of the SurvivingSOGICE research group.</p>
+
+    <p class="about-intro fade-in">This is where I put things. Essays, reflections, experiments. The thread running through all of it is the same: what does technology actually do to people, and who gets to decide that.</p>
+
+    <div class="signal-line fade-in"></div>
+
+    <p class="section-label fade-in">Frameworks I work with</p>
+    <div class="tags-row fade-in">
+        <span class="node-tag theory">Procedural rhetoric</span>
+        <span class="node-tag theory">Posthumanism</span>
+        <span class="node-tag theory">Cyborg theory</span>
+        <span class="node-tag theory">Technogenesis</span>
+        <span class="node-tag theory">Queer game studies</span>
+        <span class="node-tag theory">Homonormativity</span>
+        <span class="node-tag theory">Haptics &amp; embodiment</span>
+        <span class="node-tag theory">Surveillance capitalism</span>
+        <span class="node-tag theory">Interface criticism</span>
+        <span class="node-tag theory">Affordance theory</span>
+        <span class="node-tag theory">Play ethics</span>
+        <span class="node-tag theory">Electronic literature</span>
+    </div>
+
+    <p class="section-label fade-in">Theorists</p>
+    <div class="tags-row fade-in">
+        <span class="node-tag method">Bogost</span>
+        <span class="node-tag method">Haraway</span>
+        <span class="node-tag method">Hayles</span>
+        <span class="node-tag method">K. Jørgensen</span>
+        <span class="node-tag method">Sicart</span>
+        <span class="node-tag method">Ruberg &amp; Shaw</span>
+        <span class="node-tag method">Duggan</span>
+        <span class="node-tag method">Paterson</span>
+        <span class="node-tag method">Zuboff</span>
+        <span class="node-tag method">Norman</span>
+        <span class="node-tag method">Andersen &amp; Pold</span>
+        <span class="node-tag method">Foucault</span>
+        <span class="node-tag method">Terranova</span>
+    </div>
+
+    <div class="signal-line fade-in"></div>
+
+    <p class="section-label fade-in">Research at CDN</p>
+    <p class="about-intro fade-in">I am interning on the <a href="https://survivingsogice.eu/" target="_blank">SurvivingSOGICE</a> project at CDN. We document Sexual Orientation and Gender Identity Change Efforts across Europe. Conversion therapy, basically, and the networks that keep it alive after it has been banned. My part is database work in Zotero, mapping organisations, and building a Twine game for the project website where survivors can share their stories safely.</p>
+    <p class="about-intro fade-in">Norway banned conversion practices in 2022. Three reports filed since then. Zero prosecutions. That gap is what the research is about.</p>
+    <div class="tags-row fade-in">
+        <span class="node-tag tech">Zotero</span>
+        <span class="node-tag tech">Twine / SugarCube</span>
+        <span class="node-tag tech">Notion</span>
+        <span class="node-tag tech">Trauma-informed design</span>
+        <span class="node-tag tech">Haptic feedback</span>
+    </div>
+
+    <div class="signal-line fade-in"></div>
+
+    <p class="section-label fade-in">Activism</p>
+    <p class="about-intro fade-in">I run social media and content strategy for <a href="https://bergenpride.no" target="_blank">Bergen Pride</a>. I have been doing that since 2022. One thing I found during my DIKULT106 research: Norwegian Pride content reached 273,000 people. English content got suppressed. The algorithm does not treat all queerness equally. I wrote about that as strategic invisibility.</p>
+    <p class="about-intro fade-in">I am on the board of <a href="https://frivestland.no" target="_blank">FRI Vestland</a> and run their social media. I started KIM as a collective for women, non-binary and trans people in Bergen. It became a FRI subgroup in late 2025. Last Christmas I organised Skeiv Jul, seven events across December for people who would otherwise spend the holidays alone. About 40 people came to the Christmas Eve dinner. We got 75,000 kr from Vestland Fylkeskommune for it.</p>
+    <div class="tags-row fade-in">
+        <span class="node-tag activist">Bergen Pride</span>
+        <span class="node-tag activist">FRI Vestland</span>
+        <span class="node-tag activist">KIM collective</span>
+        <span class="node-tag activist">Skeiv Jul</span>
+        <span class="node-tag activist">Skeiv Verden Vest</span>
+        <span class="node-tag activist">Strategic invisibility</span>
+        <span class="node-tag activist">Platform resistance</span>
+    </div>
+
+    <div class="signal-line fade-in"></div>
+
+    <p class="section-label fade-in">Regnbuenatt 2026</p>
+    <p class="about-intro fade-in">Right now I am building Regnbuenatt 2026, the closing party for Bergen Pride. It is a Twine game and a real event at Marinehagen with performance and live music. The concept uses Norwegian folklore creatures as queer archetypes: Huldra, Nøkken, Bergtrollet, Fossegrimen, Draugen. Each one maps onto something. When I was building it I discovered that Android lets you vibrate the phone from HTML but Apple locks that completely. So on iOS you get a low-frequency audio tone through headphones instead, bone conduction. That ended up becoming part of the essay about the whole thing.</p>
+    <div class="tags-row fade-in">
+        <span class="node-tag tech">Twine</span>
+        <span class="node-tag theory">Procedural rhetoric</span>
+        <span class="node-tag theory">Haptic embodiment</span>
+        <span class="node-tag activist">Queer ritual</span>
+        <span class="node-tag tech">Self-hosted HTML</span>
+        <span class="node-tag method">Norwegian folklore</span>
+    </div>
+
+    <div class="signal-line fade-in"></div>
+
+    <div class="award-callout fade-in">
+        First place, Digital Culture Awards for Electronic Literature 2026. The piece was <em>The Turing Test: Fragments of a Life Saved by Pixels</em>. A Twine game about AI bias against Norwegian queer organisations.
+    </div>
+
+    <p class="section-label fade-in">Contact</p>
+    <p class="contact-text fade-in">You can reach me at <a href="mailto:ingrid@bergenpride.no">ingrid@bergenpride.no</a>. The code lives at <a href="https://github.com/ingridormevik" target="_blank">github.com/ingridormevik</a>.</p>
+
+</main>
+
+<footer>
+    <p>&copy; 2026 Ingrid Ormevik</p>
+    <p>Digital Culture BA &middot; University of Bergen &middot; Centre for Digital Narrative</p>
+</footer>
+
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+    <svg class="icon moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+    </svg>
+    <svg class="icon sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="5"/>
+        <line x1="12" y1="1" x2="12" y2="3"/>
+        <line x1="12" y1="21" x2="12" y2="23"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="1" y1="12" x2="3" y2="12"/>
+        <line x1="21" y1="12" x2="23" y2="12"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+    </svg>
+</button>
+
+<script>
+// === THEME ===
+const toggle = document.getElementById('themeToggle');
+const saved  = localStorage.getItem('theme') || 'dark';
+document.documentElement.setAttribute('data-theme', saved);
+
+toggle.addEventListener('click', () => {
+    const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+});
+
+// === NEURAL NETWORK ===
+const canvas = document.getElementById('neural-canvas');
+const ctx    = canvas.getContext('2d');
+
+const groups = ['theory','theory','theory','theory','theory','theory',
+                'activist','activist','activist','activist',
+                'method','method','method','method','method',
+                'tech','tech','tech','tech','tech'];
+
+const colors = {
+    theory:   [179, 157, 250],
+    activist: [74,  222, 154],
+    method:   [249, 168, 212],
+    tech:     [126, 232, 249],
+};
+
+let nodes = [], pulses = [], raf;
+
+function resize() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+    nodes = groups.map(g => ({
+        x:  Math.random() * canvas.width,
+        y:  Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.28,
+        vy: (Math.random() - 0.5) * 0.28,
+        r:  2 + Math.random() * 2.5,
+        c:  colors[g],
+    }));
+}
+
+function spawnPulse() {
+    const a = Math.floor(Math.random() * nodes.length);
+    let   b = Math.floor(Math.random() * nodes.length);
+    while (b === a) b = Math.floor(Math.random() * nodes.length);
+    pulses.push({ a, b, t: 0, spd: 0.003 + Math.random() * 0.004 });
+}
+
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    nodes.forEach(n => {
+        n.x += n.vx; n.y += n.vy;
+        if (n.x < 0 || n.x > canvas.width)  n.vx *= -1;
+        if (n.y < 0 || n.y > canvas.height)  n.vy *= -1;
+    });
+
+    for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+            const dx = nodes[i].x - nodes[j].x;
+            const dy = nodes[i].y - nodes[j].y;
+            const d  = Math.sqrt(dx*dx + dy*dy);
+            if (d < 200) {
+                const [r,g,b] = nodes[i].c;
+                ctx.beginPath();
+                ctx.strokeStyle = `rgba(${r},${g},${b},${(1 - d/200) * 0.18})`;
+                ctx.lineWidth   = 0.5;
+                ctx.moveTo(nodes[i].x, nodes[i].y);
+                ctx.lineTo(nodes[j].x, nodes[j].y);
+                ctx.stroke();
+            }
+        }
+    }
+
+    for (let i = pulses.length - 1; i >= 0; i--) {
+        const p = pulses[i];
+        p.t += p.spd;
+        if (p.t >= 1) { pulses.splice(i, 1); continue; }
+        const na = nodes[p.a], nb = nodes[p.b];
+        const x  = na.x + (nb.x - na.x) * p.t;
+        const y  = na.y + (nb.y - na.y) * p.t;
+        const [r,g,b] = na.c;
+        const gr = ctx.createRadialGradient(x, y, 0, x, y, 9);
+        gr.addColorStop(0, `rgba(${r},${g},${b},0.85)`);
+        gr.addColorStop(1, `rgba(${r},${g},${b},0)`);
+        ctx.beginPath();
+        ctx.fillStyle = gr;
+        ctx.arc(x, y, 9, 0, Math.PI * 2);
+        ctx.fill();
+    }
+
+    nodes.forEach(n => {
+        const [r,g,b] = n.c;
+        ctx.beginPath();
+        ctx.fillStyle = `rgba(${r},${g},${b},0.55)`;
+        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+        ctx.fill();
+    });
+
+    raf = requestAnimationFrame(draw);
+}
+
+setInterval(spawnPulse, 650);
+resize();
+draw();
+window.addEventListener('resize', () => { cancelAnimationFrame(raf); resize(); draw(); });
+</script>
+
 </body>
 </html>
