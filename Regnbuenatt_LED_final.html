@@ -100,15 +100,17 @@ color:#e0f8ff;
 100%{background-position:0% 50%;}
 }
 
-#ui{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;}
+#ui{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;overflow-y:auto;-webkit-overflow-scrolling:touch;}
 #startcard{
 border:1px solid rgba(255,255,255,0.14);
-padding:38px 36px 36px;
+padding:28px 20px 28px;
 text-align:center;
 background:rgba(0,3,6,0.82);
 backdrop-filter:blur(12px);
 max-width:440px;
-width:90%;
+width:92%;
+max-height:90vh;
+overflow-y:auto;
 display:flex;
 flex-direction:column;
 align-items:center;
@@ -2495,13 +2497,16 @@ document.querySelectorAll('[data-mode]').forEach(b=>{b.addEventListener('click',
 document.getElementById('btn-play').addEventListener('click',()=>{
   uiEl.style.display='none';hudEl.style.display='block';
   audioCtx=new(window.AudioContext||window.webkitAudioContext)();
-  analyserHi=audioCtx.createAnalyser();analyserLo=audioCtx.createAnalyser();
-  analyserHi.fftSize=2048;analyserHi.smoothingTimeConstant=0.82;analyserLo.fftSize=256;analyserLo.smoothingTimeConstant=0.55;
-  freqHi=new Uint8Array(analyserHi.frequencyBinCount);freqLo=new Uint8Array(analyserLo.frequencyBinCount);timeD=new Float32Array(analyserHi.fftSize);
-  const audioConstraints=isMobile?{audio:true,video:false}:{audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false},video:false};
-  navigator.mediaDevices.getUserMedia(audioConstraints)
-    .then(stream=>{micStream=stream;const src=audioCtx.createMediaStreamSource(stream);src.connect(analyserHi);src.connect(analyserLo);document.getElementById('mic-badge').style.display='block';running=true;sessionStartTime=performance.now();creatureBeatClock=0;allCreaturesMode=false;convergenceActive=false;CS.forEach((c,i)=>{c.alpha=0;c.targetAlpha=0;c.visible=false;c.visTimer=120+i*80+Math.floor(Math.random()*160);});requestAnimationFrame(loop);})
-    .catch(()=>{alert('Microphone access needed.');uiEl.style.display='flex';hudEl.style.display='none';});
+  // iOS Safari requires resume() called synchronously inside user gesture
+  audioCtx.resume().then(()=>{
+    analyserHi=audioCtx.createAnalyser();analyserLo=audioCtx.createAnalyser();
+    analyserHi.fftSize=2048;analyserHi.smoothingTimeConstant=0.82;analyserLo.fftSize=256;analyserLo.smoothingTimeConstant=0.55;
+    freqHi=new Uint8Array(analyserHi.frequencyBinCount);freqLo=new Uint8Array(analyserLo.frequencyBinCount);timeD=new Float32Array(analyserHi.fftSize);
+    const audioConstraints=isMobile?{audio:true,video:false}:{audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false},video:false};
+    navigator.mediaDevices.getUserMedia(audioConstraints)
+      .then(stream=>{micStream=stream;const src=audioCtx.createMediaStreamSource(stream);src.connect(analyserHi);src.connect(analyserLo);document.getElementById('mic-badge').style.display='block';running=true;sessionStartTime=performance.now();creatureBeatClock=0;allCreaturesMode=false;convergenceActive=false;CS.forEach((c,i)=>{c.alpha=0;c.targetAlpha=0;c.visible=false;c.visTimer=120+i*80+Math.floor(Math.random()*160);});requestAnimationFrame(loop);})
+      .catch(()=>{alert('Microphone access needed.');uiEl.style.display='flex';hudEl.style.display='none';});
+  });
 });
 
 document.getElementById('btn-stop').addEventListener('click',()=>{
