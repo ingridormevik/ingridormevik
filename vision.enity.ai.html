@@ -94,7 +94,15 @@ p{margin:0 0 14px;color:rgba(255,255,255,.8);line-height:1.45}
         <button id="startBtn" class="primary">start camera</button>
         <label class="btn">choose image<input id="fileInputIntro" type="file" accept="image/*"></label>
       </div>
-      <p class="tiny" style="margin-top:14px">Best in Safari on iPhone. Give camera permission when asked.</p>
+      <div style="margin-top:16px">
+        <input id="apiKeyInput" type="password" placeholder="Paste your Anthropic API key (sk-ant-...)"
+          style="width:100%;padding:10px 14px;border-radius:999px;background:rgba(255,255,255,.08);
+          border:1px solid rgba(255,255,255,.2);color:#fff;font-size:13px;outline:none;
+          letter-spacing:.04em;font-family:Arial,sans-serif"/>
+        <p style="margin-top:8px;font-size:11px;color:rgba(255,255,255,.4)">
+          Key stays on your device. Get it at console.anthropic.com</p>
+      </div>
+      <p class="tiny" style="margin-top:8px">Best in Safari on iPhone.</p>
     </div>
   </div>
 </div>
@@ -239,9 +247,25 @@ function captureFrame(){
   return c.toDataURL('image/jpeg',0.75);
 }
 
+// ── API KEY ───────────────────────────────────────────────
+function getKey(){
+  // Check input field first, then localStorage
+  const input = document.getElementById('apiKeyInput');
+  const val = input ? input.value.trim() : '';
+  if(val){ localStorage.setItem('ve_api_key', val); return val; }
+  return localStorage.getItem('ve_api_key')||'';
+}
+
+function ensureKey(){
+  const k = getKey();
+  if(!k){ setStatus('paste API key in the intro card'); return false; }
+  return true;
+}
+
 // ── AI SCAN ───────────────────────────────────────────────
 async function doScan(){
   if(scanning) return;
+  if(!ensureKey()) return;
   const frame = captureFrame();
   if(!frame){ setStatus('no frame yet'); return; }
 
@@ -256,7 +280,8 @@ async function doScan(){
       headers:{
         'Content-Type':'application/json',
         'anthropic-version':'2023-06-01',
-        'anthropic-dangerous-direct-browser-access':'true'
+        'anthropic-dangerous-direct-browser-access':'true',
+        'x-api-key': getKey()
       },
       body:JSON.stringify({
         model:MODEL,
