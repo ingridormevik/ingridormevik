@@ -108,7 +108,7 @@ p{margin:0 0 14px;color:rgba(255,255,255,.8);line-height:1.45}
 </div>
 
 <script>
-const MODEL      = 'claude-haiku-4-5-20251001';
+const MODEL      = 'claude-sonnet-4-6';
 const SCAN_EVERY = 5000;
 const COLORS     = ['#ff2d7a','#7ef7ff','#d6ff6b','#ffffff','#ff9ad1'];
 
@@ -299,9 +299,9 @@ async function doScan(){
 
     const txt = await resp.text();
     console.log('FULL API RESPONSE:', txt);
-    if(!resp.ok) throw new Error('API '+resp.status+': '+txt.slice(0,120));
+    if(!resp.ok) throw new Error('API '+resp.status+': '+txt);
     const data = JSON.parse(txt);
-    if(data.error) throw new Error(data.error.message);
+    if(data.error) throw new Error(JSON.stringify(data.error));
     const raw = data.content?.find(b=>b.type==='text')?.text||'';
     const s=raw.indexOf('{'), e=raw.lastIndexOf('}');
     if(s<0||e<0) throw new Error('no JSON found');
@@ -325,7 +325,7 @@ async function doScan(){
       setStatus('nothing detected');
     }
   }catch(err){
-    setStatus('error: '+err.message.slice(0,80));
+    setStatus(err.message);
     console.error(err);
   }
 
