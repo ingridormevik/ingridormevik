@@ -69,6 +69,9 @@ p{margin:0 0 14px;color:rgba(255,255,255,.8);line-height:1.45}
   <div class="lb" id="lb-top"></div>
   <div class="lb" id="lb-bot"></div>
   <div id="beam"></div>
+  <div id="debug" style="display:none;position:absolute;top:80px;left:10px;right:10px;z-index:50;
+    background:rgba(0,0,0,.92);border:2px solid #ff2d7a;padding:14px;border-radius:12px;
+    font-size:13px;word-break:break-all;line-height:1.5;color:#fff;max-height:60vh;overflow:auto"></div>
 
   <div class="hud">
     <div class="tag"><span class="dot"></span><span>vision entity</span></div>
@@ -268,10 +271,21 @@ function ensureKey(){
 }
 
 // ── AI SCAN ───────────────────────────────────────────────
+function dbg(msg){
+  const el = document.getElementById('debug');
+  el.style.display = 'block';
+  el.innerHTML += msg + '<br>';
+  console.log(msg);
+}
+
 async function doScan(){
   if(scanning) return;
+  document.getElementById('debug').innerHTML='';
+  const key=getKey();
+  dbg('key: '+(key?key.slice(0,12)+'...':'MISSING'));
   if(!ensureKey()) return;
   const frame = captureFrame();
+  dbg('frame: '+(frame?frame.length:'null'));
   if(!frame){ setStatus('no frame yet'); return; }
 
   scanning=true;
@@ -303,7 +317,8 @@ async function doScan(){
     });
 
     const txt = await resp.text();
-    console.log('FULL API RESPONSE:', txt);
+    dbg('status: '+resp.status);
+    dbg('response: '+txt.slice(0,300));
     if(!resp.ok) throw new Error('API '+resp.status+': '+txt);
     const data = JSON.parse(txt);
     if(data.error) throw new Error(JSON.stringify(data.error));
